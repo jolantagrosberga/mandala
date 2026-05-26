@@ -7,20 +7,20 @@
 <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Nunito:wght@300;400;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #0a0614;
-    --panel: #12082a;
-    --border: #3d1f6e;
-    --accent1: #c084fc;
-    --accent2: #f59e0b;
-    --accent3: #34d399;
-    --accent4: #f472b6;
-    --text: #e2d9f3;
-    --muted: #7c6a9e;
-    --glow: rgba(192, 132, 252, 0.3);
+    --bg: #f5f0e8;
+    --panel: #ffffff;
+    --border: #d4c5a9;
+    --accent1: #8b4eb8;
+    --accent2: #c0392b;
+    --accent3: #27ae60;
+    --accent4: #e67e22;
+    --text: #2c2c2c;
+    --muted: #7a6a5a;
+    --glow: rgba(139, 78, 184, 0.25);
   }
-
+ 
   * { margin: 0; padding: 0; box-sizing: border-box; }
-
+ 
   body {
     background: var(--bg);
     color: var(--text);
@@ -31,7 +31,7 @@
     overflow: hidden;
     user-select: none;
   }
-
+ 
   header {
     display: flex;
     align-items: center;
@@ -42,7 +42,7 @@
     flex-shrink: 0;
     gap: 12px;
   }
-
+ 
   .logo {
     font-family: 'Cinzel Decorative', cursive;
     font-size: 1.1rem;
@@ -53,13 +53,13 @@
     white-space: nowrap;
     flex-shrink: 0;
   }
-
+ 
   .subtitle {
     font-size: 0.7rem;
     color: var(--muted);
     white-space: nowrap;
   }
-
+ 
   .controls {
     display: flex;
     align-items: center;
@@ -68,7 +68,7 @@
     justify-content: center;
     flex: 1;
   }
-
+ 
   .control-group {
     display: flex;
     align-items: center;
@@ -78,19 +78,19 @@
     border-radius: 10px;
     padding: 5px 10px;
   }
-
+ 
   .control-group label {
     font-size: 0.7rem;
     color: var(--muted);
     white-space: nowrap;
   }
-
+ 
   /* Symmetry selector */
   .sym-btns {
     display: flex;
     gap: 4px;
   }
-
+ 
   .sym-btn {
     width: 28px;
     height: 28px;
@@ -112,14 +112,14 @@
     color: #0a0614;
     box-shadow: 0 0 10px var(--glow);
   }
-
+ 
   /* Color swatches */
   .color-swatches {
     display: flex;
     gap: 5px;
     align-items: center;
   }
-
+ 
   .swatch {
     width: 22px;
     height: 22px;
@@ -131,7 +131,7 @@
   }
   .swatch:hover { transform: scale(1.2); }
   .swatch.active { border-color: white; box-shadow: 0 0 8px rgba(255,255,255,0.5); transform: scale(1.15); }
-
+ 
   .color-picker-wrap {
     position: relative;
   }
@@ -150,7 +150,7 @@
   .color-picker-btn input[type="color"] {
     position: absolute; opacity: 0; width: 100%; height: 100%; cursor: pointer; top: 0; left: 0;
   }
-
+ 
   /* Brush size */
   .size-slider {
     -webkit-appearance: none;
@@ -169,13 +169,13 @@
     box-shadow: 0 0 6px var(--glow);
     cursor: pointer;
   }
-
+ 
   /* Mode buttons */
   .mode-btns {
     display: flex;
     gap: 4px;
   }
-
+ 
   .mode-btn {
     padding: 4px 10px;
     border-radius: 6px;
@@ -195,13 +195,13 @@
     border-color: var(--accent3);
     color: #0a0614;
   }
-
+ 
   /* Action buttons */
   .action-btns {
     display: flex;
     gap: 6px;
   }
-
+ 
   .action-btn {
     padding: 5px 12px;
     border-radius: 8px;
@@ -224,7 +224,7 @@
     border-color: #ef4444;
     color: #ef4444;
   }
-
+ 
   /* Canvas area */
   .canvas-wrap {
     flex: 1;
@@ -233,37 +233,37 @@
     justify-content: center;
     position: relative;
     overflow: hidden;
-    background: radial-gradient(ellipse at center, #130a2e 0%, #0a0614 70%);
+    background: radial-gradient(ellipse at center, #fdf8f0 0%, #ece5d8 70%);
   }
-
+ 
   /* Guide rings (decorative) */
   .guide-ring {
     position: absolute;
     border-radius: 50%;
-    border: 1px solid rgba(255,255,255,0.04);
+    border: 1px solid rgba(0,0,0,0.06);
     pointer-events: none;
     transform: translate(-50%, -50%);
     left: 50%; top: 50%;
   }
-
+ 
   canvas {
     display: block;
     cursor: crosshair;
     touch-action: none;
     border-radius: 50%;
     box-shadow:
-      0 0 0 1px rgba(192,132,252,0.15),
-      0 0 60px rgba(192,132,252,0.08),
-      0 0 120px rgba(192,132,252,0.04);
+      0 0 0 1px rgba(139,78,184,0.15),
+      0 0 40px rgba(139,78,184,0.08),
+      0 4px 24px rgba(0,0,0,0.08);
   }
-
+ 
   /* Axis guide lines on canvas */
   #guide-canvas {
     position: absolute;
     pointer-events: none;
     border-radius: 50%;
   }
-
+ 
   /* Info bar */
   footer {
     padding: 6px 20px;
@@ -274,12 +274,12 @@
     justify-content: space-between;
     flex-shrink: 0;
   }
-
+ 
   footer span {
     font-size: 0.65rem;
     color: var(--muted);
   }
-
+ 
   .tip {
     display: flex;
     align-items: center;
@@ -293,12 +293,12 @@
     background: var(--accent1);
     animation: pulse 2s infinite;
   }
-
+ 
   @keyframes pulse {
     0%, 100% { opacity: 1; transform: scale(1); }
     50% { opacity: 0.5; transform: scale(0.7); }
   }
-
+ 
   /* Brush preview */
   #brush-preview {
     display: inline-block;
@@ -308,7 +308,7 @@
     margin-left: 4px;
     transition: all 0.2s;
   }
-
+ 
   /* Opacity slider */
   .opacity-slider {
     -webkit-appearance: none;
@@ -327,7 +327,7 @@
     box-shadow: 0 0 6px rgba(245,158,11,0.5);
     cursor: pointer;
   }
-
+ 
   /* Stamp mode - ornament picker */
   #stamp-panel {
     display: flex;
@@ -348,7 +348,7 @@
   }
   .stamp-opt:hover { border-color: var(--accent2); background: rgba(245,158,11,0.1); }
   .stamp-opt.active { border-color: var(--accent2); background: rgba(245,158,11,0.2); box-shadow: 0 0 8px rgba(245,158,11,0.3); }
-
+ 
   /* Fullscreen hint */
   .fs-btn {
     padding: 4px 10px;
@@ -362,7 +362,7 @@
     transition: all 0.2s;
   }
   .fs-btn:hover { border-color: var(--accent1); color: var(--accent1); }
-
+ 
   @media (max-width: 700px) {
     .logo { font-size: 0.85rem; }
     .subtitle { display: none; }
@@ -372,15 +372,15 @@
 </style>
 </head>
 <body>
-
+ 
 <header>
   <div>
     <div class="logo">✦ Mandalu Tāfele</div>
     <div class="subtitle">Pasaules tautu ornamenti un raksti</div>
   </div>
-
+ 
   <div class="controls">
-
+ 
     <!-- Symmetry -->
     <div class="control-group">
       <label>Simetrija</label>
@@ -393,18 +393,21 @@
         <button class="sym-btn" data-sym="16">16</button>
       </div>
     </div>
-
+ 
     <!-- Colors -->
     <div class="control-group">
       <label>Krāsa</label>
       <div class="color-swatches" id="swatches">
-        <div class="swatch active" data-color="#c084fc" style="background:#c084fc"></div>
-        <div class="swatch" data-color="#f59e0b" style="background:#f59e0b"></div>
-        <div class="swatch" data-color="#34d399" style="background:#34d399"></div>
-        <div class="swatch" data-color="#f472b6" style="background:#f472b6"></div>
-        <div class="swatch" data-color="#60a5fa" style="background:#60a5fa"></div>
-        <div class="swatch" data-color="#fb7185" style="background:#fb7185"></div>
-        <div class="swatch" data-color="#ffffff" style="background:#ffffff"></div>
+        <div class="swatch active" data-color="#e63030" style="background:#e63030" title="Sarkana"></div>
+        <div class="swatch" data-color="#5bc8f5" style="background:#5bc8f5" title="Gaiši zila"></div>
+        <div class="swatch" data-color="#6dd47e" style="background:#6dd47e" title="Gaiši zaļa"></div>
+        <div class="swatch" data-color="#f5d800" style="background:#f5d800" title="Dzeltena"></div>
+        <div class="swatch" data-color="#8b4eb8" style="background:#8b4eb8" title="Violeta"></div>
+        <div class="swatch" data-color="#9e9e9e" style="background:#9e9e9e" title="Pelēka"></div>
+        <div class="swatch" data-color="#f07c00" style="background:#f07c00" title="Oranža"></div>
+        <div class="swatch" data-color="#7d1a2e" style="background:#7d1a2e" title="Bordo"></div>
+        <div class="swatch" data-color="#1a3a7a" style="background:#1a3a7a" title="Tumši zila"></div>
+        <div class="swatch" data-color="#1a5c35" style="background:#1a5c35" title="Tumši zaļa"></div>
         <div class="color-picker-wrap">
           <div class="color-picker-btn">
             <input type="color" id="custom-color" value="#ff6b6b">
@@ -412,20 +415,20 @@
         </div>
       </div>
     </div>
-
+ 
     <!-- Brush size -->
     <div class="control-group">
       <label>Izmērs</label>
       <input type="range" class="size-slider" id="size-slider" min="1" max="30" value="3">
-      <span id="brush-preview" style="width:6px;height:6px;background:var(--accent1)"></span>
+      <span id="brush-preview" style="width:6px;height:6px;background:#e63030"></span>
     </div>
-
+ 
     <!-- Opacity -->
     <div class="control-group">
       <label>Caurspīd.</label>
       <input type="range" class="opacity-slider" id="opacity-slider" min="10" max="100" value="90">
     </div>
-
+ 
     <!-- Mode -->
     <div class="control-group">
       <label>Rīks</label>
@@ -434,24 +437,24 @@
         <button class="mode-btn" id="mode-erase">⬜ Dzēst</button>
       </div>
     </div>
-
+ 
     <!-- Guide lines toggle -->
     <div class="control-group">
       <label>Vadlīnijas</label>
       <button class="mode-btn active" id="guide-toggle">Redzamas</button>
     </div>
-
+ 
     <!-- Actions -->
     <div class="action-btns">
       <button class="action-btn" id="btn-undo">↩ Atcelt</button>
       <button class="action-btn" id="btn-save">⬇ Saglabāt</button>
       <button class="action-btn danger" id="btn-clear">🗑 Tīrīt</button>
     </div>
-
+ 
     <button class="fs-btn" id="fs-btn">⛶ Pilnekrāns</button>
   </div>
 </header>
-
+ 
 <div class="canvas-wrap" id="canvas-wrap">
   <!-- Decorative guide rings -->
   <div class="guide-ring" style="width:100px;height:100px"></div>
@@ -460,13 +463,13 @@
   <div class="guide-ring" style="width:450px;height:450px"></div>
   <div class="guide-ring" style="width:580px;height:580px"></div>
   <div class="guide-ring" style="width:700px;height:700px"></div>
-
+ 
   <div style="position:relative;">
     <canvas id="guide-canvas"></canvas>
     <canvas id="main-canvas"></canvas>
   </div>
 </div>
-
+ 
 <footer>
   <div class="tip">
     <div class="tip-dot"></div>
@@ -474,15 +477,15 @@
   </div>
   <span>6. klase · Pasaules tautu ornamenti un raksti · <strong style="color:var(--accent1)">Dati netiek saglabāti</strong></span>
 </footer>
-
+ 
 <script>
 const mainCanvas = document.getElementById('main-canvas');
 const guideCanvas = document.getElementById('guide-canvas');
 const ctx = mainCanvas.getContext('2d');
 const gctx = guideCanvas.getContext('2d');
-
+ 
 let symmetry = 6;
-let currentColor = '#c084fc';
+let currentColor = '#e63030';
 let brushSize = 3;
 let opacity = 0.9;
 let isDrawing = false;
@@ -491,14 +494,14 @@ let showGuides = true;
 let lastX = null, lastY = null;
 let undoStack = [];
 let MAX_UNDO = 20;
-
+ 
 // Canvas sizing
 function resize() {
   const wrap = document.getElementById('canvas-wrap');
   const w = wrap.clientWidth;
   const h = wrap.clientHeight;
   const size = Math.min(w, h) * 0.96;
-
+ 
   mainCanvas.width = size;
   mainCanvas.height = size;
   guideCanvas.width = size;
@@ -506,29 +509,29 @@ function resize() {
   guideCanvas.style.position = 'absolute';
   guideCanvas.style.top = '0';
   guideCanvas.style.left = '0';
-
+ 
   // Restore undo if available
   if (undoStack.length > 0) {
     const img = new Image();
     img.src = undoStack[undoStack.length - 1];
     img.onload = () => ctx.drawImage(img, 0, 0);
   }
-
+ 
   drawGuides();
 }
-
+ 
 function drawGuides() {
   gctx.clearRect(0, 0, guideCanvas.width, guideCanvas.height);
   if (!showGuides) return;
-
+ 
   const cx = guideCanvas.width / 2;
   const cy = guideCanvas.height / 2;
   const r = guideCanvas.width / 2;
-
+ 
   gctx.save();
-  gctx.strokeStyle = 'rgba(192, 132, 252, 0.12)';
+  gctx.strokeStyle = 'rgba(100, 60, 160, 0.12)';
   gctx.lineWidth = 0.5;
-
+ 
   for (let i = 0; i < symmetry; i++) {
     const angle = (i / symmetry) * Math.PI * 2;
     gctx.beginPath();
@@ -536,7 +539,7 @@ function drawGuides() {
     gctx.lineTo(cx + Math.cos(angle) * r, cy + Math.sin(angle) * r);
     gctx.stroke();
   }
-
+ 
   // Circle guide
   gctx.beginPath();
   gctx.arc(cx, cy, r * 0.3, 0, Math.PI * 2);
@@ -547,15 +550,15 @@ function drawGuides() {
   gctx.beginPath();
   gctx.arc(cx, cy, r * 0.85, 0, Math.PI * 2);
   gctx.stroke();
-
+ 
   gctx.restore();
 }
-
+ 
 function saveUndo() {
   if (undoStack.length >= MAX_UNDO) undoStack.shift();
   undoStack.push(mainCanvas.toDataURL());
 }
-
+ 
 function getPos(e) {
   const rect = mainCanvas.getBoundingClientRect();
   const scaleX = mainCanvas.width / rect.width;
@@ -571,17 +574,17 @@ function getPos(e) {
     y: (e.clientY - rect.top) * scaleY
   };
 }
-
+ 
 function drawSymmetric(x1, y1, x2, y2) {
   const cx = mainCanvas.width / 2;
   const cy = mainCanvas.height / 2;
-
+ 
   for (let i = 0; i < symmetry; i++) {
     const angle = (i / symmetry) * Math.PI * 2;
     ctx.save();
     ctx.translate(cx, cy);
     ctx.rotate(angle);
-
+ 
     // Normal
     ctx.beginPath();
     if (x1 !== null) {
@@ -592,7 +595,7 @@ function drawSymmetric(x1, y1, x2, y2) {
       ctx.fill();
     }
     ctx.stroke();
-
+ 
     // Mirror
     ctx.scale(1, -1);
     ctx.beginPath();
@@ -604,11 +607,11 @@ function drawSymmetric(x1, y1, x2, y2) {
       ctx.fill();
     }
     ctx.stroke();
-
+ 
     ctx.restore();
   }
 }
-
+ 
 function startDraw(e) {
   e.preventDefault();
   saveUndo();
@@ -616,7 +619,7 @@ function startDraw(e) {
   const pos = getPos(e);
   lastX = pos.x;
   lastY = pos.y;
-
+ 
   if (isErasing) {
     ctx.globalCompositeOperation = 'destination-out';
     ctx.strokeStyle = 'rgba(0,0,0,1)';
@@ -632,29 +635,29 @@ function startDraw(e) {
     ctx.fillStyle = `rgba(${r},${g},${b},${opacity})`;
     ctx.lineWidth = brushSize;
   }
-
+ 
   ctx.lineCap = 'round';
   ctx.lineJoin = 'round';
   drawSymmetric(null, null, pos.x, pos.y);
 }
-
+ 
 function doDraw(e) {
   if (!isDrawing) return;
   e.preventDefault();
   const pos = getPos(e);
-
+ 
   drawSymmetric(lastX, lastY, pos.x, pos.y);
-
+ 
   lastX = pos.x;
   lastY = pos.y;
 }
-
+ 
 function endDraw(e) {
   isDrawing = false;
   lastX = null;
   lastY = null;
 }
-
+ 
 mainCanvas.addEventListener('mousedown', startDraw);
 mainCanvas.addEventListener('mousemove', doDraw);
 mainCanvas.addEventListener('mouseup', endDraw);
@@ -662,7 +665,7 @@ mainCanvas.addEventListener('mouseleave', endDraw);
 mainCanvas.addEventListener('touchstart', startDraw, { passive: false });
 mainCanvas.addEventListener('touchmove', doDraw, { passive: false });
 mainCanvas.addEventListener('touchend', endDraw);
-
+ 
 // Symmetry buttons
 document.getElementById('sym-btns').addEventListener('click', e => {
   const btn = e.target.closest('.sym-btn');
@@ -672,7 +675,7 @@ document.getElementById('sym-btns').addEventListener('click', e => {
   symmetry = parseInt(btn.dataset.sym);
   drawGuides();
 });
-
+ 
 // Color swatches
 document.getElementById('swatches').addEventListener('click', e => {
   const sw = e.target.closest('.swatch');
@@ -684,7 +687,7 @@ document.getElementById('swatches').addEventListener('click', e => {
   document.getElementById('mode-draw').classList.add('active');
   document.getElementById('mode-erase').classList.remove('active');
 });
-
+ 
 // Custom color picker
 document.getElementById('custom-color').addEventListener('input', e => {
   currentColor = e.target.value;
@@ -693,7 +696,7 @@ document.getElementById('custom-color').addEventListener('input', e => {
   document.getElementById('mode-draw').classList.add('active');
   document.getElementById('mode-erase').classList.remove('active');
 });
-
+ 
 // Brush size
 const sizeSlider = document.getElementById('size-slider');
 const brushPreview = document.getElementById('brush-preview');
@@ -703,25 +706,25 @@ sizeSlider.addEventListener('input', () => {
   brushPreview.style.width = px + 'px';
   brushPreview.style.height = px + 'px';
 });
-
+ 
 // Opacity
 document.getElementById('opacity-slider').addEventListener('input', e => {
   opacity = parseInt(e.target.value) / 100;
 });
-
+ 
 // Modes
 document.getElementById('mode-draw').addEventListener('click', () => {
   isErasing = false;
   document.getElementById('mode-draw').classList.add('active');
   document.getElementById('mode-erase').classList.remove('active');
 });
-
+ 
 document.getElementById('mode-erase').addEventListener('click', () => {
   isErasing = true;
   document.getElementById('mode-erase').classList.add('active');
   document.getElementById('mode-draw').classList.remove('active');
 });
-
+ 
 // Guide toggle
 document.getElementById('guide-toggle').addEventListener('click', function() {
   showGuides = !showGuides;
@@ -729,7 +732,7 @@ document.getElementById('guide-toggle').addEventListener('click', function() {
   this.classList.toggle('active', showGuides);
   drawGuides();
 });
-
+ 
 // Undo
 document.getElementById('btn-undo').addEventListener('click', () => {
   if (undoStack.length === 0) return;
@@ -741,7 +744,7 @@ document.getElementById('btn-undo').addEventListener('click', () => {
     img.onload = () => ctx.drawImage(img, 0, 0);
   }
 });
-
+ 
 // Clear
 document.getElementById('btn-clear').addEventListener('click', () => {
   if (confirm('Vai tiešām dzēst visu mandalu?')) {
@@ -749,7 +752,7 @@ document.getElementById('btn-clear').addEventListener('click', () => {
     ctx.clearRect(0, 0, mainCanvas.width, mainCanvas.height);
   }
 });
-
+ 
 // Save
 document.getElementById('btn-save').addEventListener('click', () => {
   // Composite: dark bg + drawing
@@ -757,16 +760,16 @@ document.getElementById('btn-save').addEventListener('click', () => {
   tmp.width = mainCanvas.width;
   tmp.height = mainCanvas.height;
   const tc = tmp.getContext('2d');
-  tc.fillStyle = '#0a0614';
+  tc.fillStyle = '#f5f0e8';
   tc.fillRect(0, 0, tmp.width, tmp.height);
   tc.drawImage(mainCanvas, 0, 0);
-
+ 
   const a = document.createElement('a');
   a.download = 'mandala.png';
   a.href = tmp.toDataURL('image/png');
   a.click();
 });
-
+ 
 // Fullscreen
 document.getElementById('fs-btn').addEventListener('click', () => {
   if (!document.fullscreenElement) {
@@ -775,7 +778,7 @@ document.getElementById('fs-btn').addEventListener('click', () => {
     document.exitFullscreen();
   }
 });
-
+ 
 // Keyboard shortcuts
 document.addEventListener('keydown', e => {
   if (e.ctrlKey && e.key === 'z') {
@@ -788,7 +791,7 @@ document.addEventListener('keydown', e => {
     document.getElementById('mode-draw').click();
   }
 });
-
+ 
 // Init
 window.addEventListener('resize', resize);
 resize();
