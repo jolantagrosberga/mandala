@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mandalu Zīmēšanas Tāfele</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Nunito:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0614;
+    --panel: #12082a;
+    --border: #3d1f6e;
+    --accent1: #c084fc;
+    --accent2: #f59e0b;
+    --accent3: #34d399;
+    --accent4: #f472b6;
+    --text: #e2d9f3;
+    --muted: #7c6a9e;
+    --glow: rgba(192, 132, 252, 0.3);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Nunito', sans-serif;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    user-select: none;
+  }
+
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    background: var(--panel);
+    border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+    gap: 12px;
+  }
+
+  .logo {
+    font-family: 'Cinzel Decorative', cursive;
+    font-size: 1.1rem;
+    background: linear-gradient(135deg, var(--accent1), var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .subtitle {
+    font-size: 0.7rem;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+
+  .controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+    flex: 1;
+  }
+
+  .control-group {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 5px 10px;
+  }
+
+  .control-group label {
+    font-size: 0.7rem;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+
+  /* Symmetry selector */
+  .sym-btns {
+    display: flex;
+    gap: 4px;
+  }
+
+  .sym-btn {
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--muted);
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .sym-btn:hover { border-color: var(--accent1); color: var(--accent1); }
+  .sym-btn.active {
+    background: var(--accent1);
+    border-color: var(--accent1);
+    color: #0a0614;
+    box-shadow: 0 0 10px var(--glow);
+  }
+
+  /* Color swatches */
+  .color-swatches {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+  }
+
+  .swatch {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: all 0.2s;
+    flex-shrink: 0;
+  }
+  .swatch:hover { transform: scale(1.2); }
+  .swatch.active { border-color: white; box-shadow: 0 0 8px rgba(255,255,255,0.5); transform: scale(1.15); }
+
+  .color-picker-wrap {
+    position: relative;
+  }
+  .color-picker-btn {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: 2px dashed var(--muted);
+    cursor: pointer;
+    overflow: hidden;
+    background: conic-gradient(red, yellow, lime, cyan, blue, magenta, red);
+    transition: transform 0.2s;
+    flex-shrink: 0;
+  }
+  .color-picker-btn:hover { transform: scale(1.2); }
+  .color-picker-btn input[type="color"] {
+    position: absolute; opacity: 0; width: 100%; height: 100%; cursor: pointer; top: 0; left: 0;
+  }
+
+  /* Brush size */
+  .size-slider {
+    -webkit-appearance: none;
+    width: 80px;
+    height: 4px;
+    border-radius: 2px;
+    background: linear-gradient(to right, var(--accent1), var(--accent2));
+    outline: none;
+    cursor: pointer;
+  }
+  .size-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    background: white;
+    box-shadow: 0 0 6px var(--glow);
+    cursor: pointer;
+  }
+
+  /* Mode buttons */
+  .mode-btns {
+    display: flex;
+    gap: 4px;
+  }
+
+  .mode-btn {
+    padding: 4px 10px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--muted);
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .mode-btn:hover { border-color: var(--accent3); color: var(--accent3); }
+  .mode-btn.active {
+    background: var(--accent3);
+    border-color: var(--accent3);
+    color: #0a0614;
+  }
+
+  /* Action buttons */
+  .action-btns {
+    display: flex;
+    gap: 6px;
+  }
+
+  .action-btn {
+    padding: 5px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text);
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .action-btn:hover {
+    border-color: var(--accent4);
+    color: var(--accent4);
+    box-shadow: 0 0 8px rgba(244,114,182,0.3);
+  }
+  .action-btn.danger:hover {
+    border-color: #ef4444;
+    color: #ef4444;
+  }
+
+  /* Canvas area */
+  .canvas-wrap {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    background: radial-gradient(ellipse at center, #130a2e 0%, #0a0614 70%);
+  }
+
+  /* Guide rings (decorative) */
+  .guide-ring {
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.04);
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    left: 50%; top: 50%;
+  }
+
+  canvas {
+    display: block;
+    cursor: crosshair;
+    touch-action: none;
+    border-radius: 50%;
+    box-shadow:
+      0 0 0 1px rgba(192,132,252,0.15),
+      0 0 60px rgba(192,132,252,0.08),
+      0 0 120px rgba(192,132,252,0.04);
+  }
+
+  /* Axis guide lines on canvas */
+  #guide-canvas {
+    position: absolute;
+    pointer-events: none;
+    border-radius: 50%;
+  }
+
+  /* Info bar */
+  footer {
+    padding: 6px 20px;
+    background: var(--panel);
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+  }
+
+  footer span {
+    font-size: 0.65rem;
+    color: var(--muted);
+  }
+
+  .tip {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.65rem;
+    color: var(--muted);
+  }
+  .tip-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--accent1);
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.7); }
+  }
+
+  /* Brush preview */
+  #brush-preview {
+    display: inline-block;
+    border-radius: 50%;
+    background: var(--accent1);
+    vertical-align: middle;
+    margin-left: 4px;
+    transition: all 0.2s;
+  }
+
+  /* Opacity slider */
+  .opacity-slider {
+    -webkit-appearance: none;
+    width: 60px;
+    height: 4px;
+    border-radius: 2px;
+    background: linear-gradient(to right, transparent, var(--accent2));
+    outline: none;
+    cursor: pointer;
+  }
+  .opacity-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    background: white;
+    box-shadow: 0 0 6px rgba(245,158,11,0.5);
+    cursor: pointer;
+  }
+
+  /* Stamp mode - ornament picker */
+  #stamp-panel {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .stamp-opt {
+    width: 30px; height: 30px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text);
+    font-size: 1rem;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
+  }
+  .stamp-opt:hover { border-color: var(--accent2); background: rgba(245,158,11,0.1); }
+  .stamp-opt.active { border-color: var(--accent2); background: rgba(245,158,11,0.2); box-shadow: 0 0 8px rgba(245,158,11,0.3); }
+
+  /* Fullscreen hint */
+  .fs-btn {
+    padding: 4px 10px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--muted);
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.7rem;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .fs-btn:hover { border-color: var(--accent1); color: var(--accent1); }
+
+  @media (max-width: 700px) {
+    .logo { font-size: 0.85rem; }
+    .subtitle { display: none; }
+    .controls { gap: 6px; }
+    .control-group { padding: 4px 7px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <div class="logo">✦ Mandalu Tāfele</div>
+    <div class="subtitle">Pasaules tautu ornamenti un raksti</div>
+  </div>
+
+  <div class="controls">
+
+    <!-- Symmetry -->
+    <div class="control-group">
+      <label>Simetrija</label>
+      <div class="sym-btns" id="sym-btns">
+        <button class="sym-btn" data-sym="2">2</button>
+        <button class="sym-btn" data-sym="4">4</button>
+        <button class="sym-btn active" data-sym="6">6</button>
+        <button class="sym-btn" data-sym="8">8</button>
+        <button class="sym-btn" data-sym="12">12</button>
+        <button class="sym-btn" data-sym="16">16</button>
+      </div>
+    </div>
+
+    <!-- Colors -->
+    <div class="control-group">
+      <label>Krāsa</label>
+      <div class="color-swatches" id="swatches">
+        <div class="swatch active" data-color="#c084fc" style="background:#c084fc"></div>
+        <div class="swatch" data-color="#f59e0b" style="background:#f59e0b"></div>
+        <div class="swatch" data-color="#34d399" style="background:#34d399"></div>
+        <div class="swatch" data-color="#f472b6" style="background:#f472b6"></div>
+        <div class="swatch" data-color="#60a5fa" style="background:#60a5fa"></div>
+        <div class="swatch" data-color="#fb7185" style="background:#fb7185"></div>
+        <div class="swatch" data-color="#ffffff" style="background:#ffffff"></div>
+        <div class="color-picker-wrap">
+          <div class="color-picker-btn">
+            <input type="color" id="custom-color" value="#ff6b6b">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Brush size -->
+    <div class="control-group">
+      <label>Izmērs</label>
+      <input type="range" class="size-slider" id="size-slider" min="1" max="30" value="3">
+      <span id="brush-preview" style="width:6px;height:6px;background:var(--accent1)"></span>
+    </div>
+
+    <!-- Opacity -->
+    <div class="control-group">
+      <label>Caurspīd.</label>
+      <input type="range" class="opacity-slider" id="opacity-slider" min="10" max="100" value="90">
+    </div>
+
+    <!-- Mode -->
+    <div class="control-group">
+      <label>Rīks</label>
+      <div class="mode-btns">
+        <button class="mode-btn active" id="mode-draw">✏️ Zīmēt</button>
+        <button class="mode-btn" id="mode-erase">⬜ Dzēst</button>
+      </div>
+    </div>
+
+    <!-- Guide lines toggle -->
+    <div class="control-group">
+      <label>Vadlīnijas</label>
+      <button class="mode-btn active" id="guide-toggle">Redzamas</button>
+    </div>
+
+    <!-- Actions -->
+    <div class="action-btns">
+      <button class="action-btn" id="btn-undo">↩ Atcelt</button>
+      <button class="action-btn" id="btn-save">⬇ Saglabāt</button>
+      <button class="action-btn danger" id="btn-clear">🗑 Tīrīt</button>
+    </div>
+
+    <button class="fs-btn" id="fs-btn">⛶ Pilnekrāns</button>
+  </div>
+</header>
+
+<div class="canvas-wrap" id="canvas-wrap">
+  <!-- Decorative guide rings -->
+  <div class="guide-ring" style="width:100px;height:100px"></div>
+  <div class="guide-ring" style="width:200px;height:200px"></div>
+  <div class="guide-ring" style="width:320px;height:320px"></div>
+  <div class="guide-ring" style="width:450px;height:450px"></div>
+  <div class="guide-ring" style="width:580px;height:580px"></div>
+  <div class="guide-ring" style="width:700px;height:700px"></div>
+
+  <div style="position:relative;">
+    <canvas id="guide-canvas"></canvas>
+    <canvas id="main-canvas"></canvas>
+  </div>
+</div>
+
+<footer>
+  <div class="tip">
+    <div class="tip-dot"></div>
+    <span>Velc ar pirkstu vai peli, lai zīmētu simetriskus ornamentus</span>
+  </div>
+  <span>6. klase · Pasaules tautu ornamenti un raksti · <strong style="color:var(--accent1)">Dati netiek saglabāti</strong></span>
+</footer>
+
+<script>
+const mainCanvas = document.getElementById('main-canvas');
+const guideCanvas = document.getElementById('guide-canvas');
+const ctx = mainCanvas.getContext('2d');
+const gctx = guideCanvas.getContext('2d');
+
+let symmetry = 6;
+let currentColor = '#c084fc';
+let brushSize = 3;
+let opacity = 0.9;
+let isDrawing = false;
+let isErasing = false;
+let showGuides = true;
+let lastX = null, lastY = null;
+let undoStack = [];
+let MAX_UNDO = 20;
+
+// Canvas sizing
+function resize() {
+  const wrap = document.getElementById('canvas-wrap');
+  const w = wrap.clientWidth;
+  const h = wrap.clientHeight;
+  const size = Math.min(w, h) * 0.96;
+
+  mainCanvas.width = size;
+  mainCanvas.height = size;
+  guideCanvas.width = size;
+  guideCanvas.height = size;
+  guideCanvas.style.position = 'absolute';
+  guideCanvas.style.top = '0';
+  guideCanvas.style.left = '0';
+
+  // Restore undo if available
+  if (undoStack.length > 0) {
+    const img = new Image();
+    img.src = undoStack[undoStack.length - 1];
+    img.onload = () => ctx.drawImage(img, 0, 0);
+  }
+
+  drawGuides();
+}
+
+function drawGuides() {
+  gctx.clearRect(0, 0, guideCanvas.width, guideCanvas.height);
+  if (!showGuides) return;
+
+  const cx = guideCanvas.width / 2;
+  const cy = guideCanvas.height / 2;
+  const r = guideCanvas.width / 2;
+
+  gctx.save();
+  gctx.strokeStyle = 'rgba(192, 132, 252, 0.12)';
+  gctx.lineWidth = 0.5;
+
+  for (let i = 0; i < symmetry; i++) {
+    const angle = (i / symmetry) * Math.PI * 2;
+    gctx.beginPath();
+    gctx.moveTo(cx, cy);
+    gctx.lineTo(cx + Math.cos(angle) * r, cy + Math.sin(angle) * r);
+    gctx.stroke();
+  }
+
+  // Circle guide
+  gctx.beginPath();
+  gctx.arc(cx, cy, r * 0.3, 0, Math.PI * 2);
+  gctx.stroke();
+  gctx.beginPath();
+  gctx.arc(cx, cy, r * 0.6, 0, Math.PI * 2);
+  gctx.stroke();
+  gctx.beginPath();
+  gctx.arc(cx, cy, r * 0.85, 0, Math.PI * 2);
+  gctx.stroke();
+
+  gctx.restore();
+}
+
+function saveUndo() {
+  if (undoStack.length >= MAX_UNDO) undoStack.shift();
+  undoStack.push(mainCanvas.toDataURL());
+}
+
+function getPos(e) {
+  const rect = mainCanvas.getBoundingClientRect();
+  const scaleX = mainCanvas.width / rect.width;
+  const scaleY = mainCanvas.height / rect.height;
+  if (e.touches) {
+    return {
+      x: (e.touches[0].clientX - rect.left) * scaleX,
+      y: (e.touches[0].clientY - rect.top) * scaleY
+    };
+  }
+  return {
+    x: (e.clientX - rect.left) * scaleX,
+    y: (e.clientY - rect.top) * scaleY
+  };
+}
+
+function drawSymmetric(x1, y1, x2, y2) {
+  const cx = mainCanvas.width / 2;
+  const cy = mainCanvas.height / 2;
+
+  for (let i = 0; i < symmetry; i++) {
+    const angle = (i / symmetry) * Math.PI * 2;
+    ctx.save();
+    ctx.translate(cx, cy);
+    ctx.rotate(angle);
+
+    // Normal
+    ctx.beginPath();
+    if (x1 !== null) {
+      ctx.moveTo(x1 - cx, y1 - cy);
+      ctx.lineTo(x2 - cx, y2 - cy);
+    } else {
+      ctx.arc(x2 - cx, y2 - cy, ctx.lineWidth / 2, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    ctx.stroke();
+
+    // Mirror
+    ctx.scale(1, -1);
+    ctx.beginPath();
+    if (x1 !== null) {
+      ctx.moveTo(x1 - cx, y1 - cy);
+      ctx.lineTo(x2 - cx, y2 - cy);
+    } else {
+      ctx.arc(x2 - cx, y2 - cy, ctx.lineWidth / 2, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    ctx.stroke();
+
+    ctx.restore();
+  }
+}
+
+function startDraw(e) {
+  e.preventDefault();
+  saveUndo();
+  isDrawing = true;
+  const pos = getPos(e);
+  lastX = pos.x;
+  lastY = pos.y;
+
+  if (isErasing) {
+    ctx.globalCompositeOperation = 'destination-out';
+    ctx.strokeStyle = 'rgba(0,0,0,1)';
+    ctx.fillStyle = 'rgba(0,0,0,1)';
+    ctx.lineWidth = brushSize * 3;
+  } else {
+    ctx.globalCompositeOperation = 'source-over';
+    const hex = currentColor;
+    const r = parseInt(hex.slice(1,3),16);
+    const g = parseInt(hex.slice(3,5),16);
+    const b = parseInt(hex.slice(5,7),16);
+    ctx.strokeStyle = `rgba(${r},${g},${b},${opacity})`;
+    ctx.fillStyle = `rgba(${r},${g},${b},${opacity})`;
+    ctx.lineWidth = brushSize;
+  }
+
+  ctx.lineCap = 'round';
+  ctx.lineJoin = 'round';
+  drawSymmetric(null, null, pos.x, pos.y);
+}
+
+function doDraw(e) {
+  if (!isDrawing) return;
+  e.preventDefault();
+  const pos = getPos(e);
+
+  drawSymmetric(lastX, lastY, pos.x, pos.y);
+
+  lastX = pos.x;
+  lastY = pos.y;
+}
+
+function endDraw(e) {
+  isDrawing = false;
+  lastX = null;
+  lastY = null;
+}
+
+mainCanvas.addEventListener('mousedown', startDraw);
+mainCanvas.addEventListener('mousemove', doDraw);
+mainCanvas.addEventListener('mouseup', endDraw);
+mainCanvas.addEventListener('mouseleave', endDraw);
+mainCanvas.addEventListener('touchstart', startDraw, { passive: false });
+mainCanvas.addEventListener('touchmove', doDraw, { passive: false });
+mainCanvas.addEventListener('touchend', endDraw);
+
+// Symmetry buttons
+document.getElementById('sym-btns').addEventListener('click', e => {
+  const btn = e.target.closest('.sym-btn');
+  if (!btn) return;
+  document.querySelectorAll('.sym-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  symmetry = parseInt(btn.dataset.sym);
+  drawGuides();
+});
+
+// Color swatches
+document.getElementById('swatches').addEventListener('click', e => {
+  const sw = e.target.closest('.swatch');
+  if (!sw) return;
+  document.querySelectorAll('.swatch').forEach(s => s.classList.remove('active'));
+  sw.classList.add('active');
+  currentColor = sw.dataset.color;
+  isErasing = false;
+  document.getElementById('mode-draw').classList.add('active');
+  document.getElementById('mode-erase').classList.remove('active');
+});
+
+// Custom color picker
+document.getElementById('custom-color').addEventListener('input', e => {
+  currentColor = e.target.value;
+  document.querySelectorAll('.swatch').forEach(s => s.classList.remove('active'));
+  isErasing = false;
+  document.getElementById('mode-draw').classList.add('active');
+  document.getElementById('mode-erase').classList.remove('active');
+});
+
+// Brush size
+const sizeSlider = document.getElementById('size-slider');
+const brushPreview = document.getElementById('brush-preview');
+sizeSlider.addEventListener('input', () => {
+  brushSize = parseInt(sizeSlider.value);
+  const px = Math.max(4, Math.min(24, brushSize * 1.2));
+  brushPreview.style.width = px + 'px';
+  brushPreview.style.height = px + 'px';
+});
+
+// Opacity
+document.getElementById('opacity-slider').addEventListener('input', e => {
+  opacity = parseInt(e.target.value) / 100;
+});
+
+// Modes
+document.getElementById('mode-draw').addEventListener('click', () => {
+  isErasing = false;
+  document.getElementById('mode-draw').classList.add('active');
+  document.getElementById('mode-erase').classList.remove('active');
+});
+
+document.getElementById('mode-erase').addEventListener('click', () => {
+  isErasing = true;
+  document.getElementById('mode-erase').classList.add('active');
+  document.getElementById('mode-draw').classList.remove('active');
+});
+
+// Guide toggle
+document.getElementById('guide-toggle').addEventListener('click', function() {
+  showGuides = !showGuides;
+  this.textContent = showGuides ? 'Redzamas' : 'Paslēptas';
+  this.classList.toggle('active', showGuides);
+  drawGuides();
+});
+
+// Undo
+document.getElementById('btn-undo').addEventListener('click', () => {
+  if (undoStack.length === 0) return;
+  undoStack.pop();
+  ctx.clearRect(0, 0, mainCanvas.width, mainCanvas.height);
+  if (undoStack.length > 0) {
+    const img = new Image();
+    img.src = undoStack[undoStack.length - 1];
+    img.onload = () => ctx.drawImage(img, 0, 0);
+  }
+});
+
+// Clear
+document.getElementById('btn-clear').addEventListener('click', () => {
+  if (confirm('Vai tiešām dzēst visu mandalu?')) {
+    saveUndo();
+    ctx.clearRect(0, 0, mainCanvas.width, mainCanvas.height);
+  }
+});
+
+// Save
+document.getElementById('btn-save').addEventListener('click', () => {
+  // Composite: dark bg + drawing
+  const tmp = document.createElement('canvas');
+  tmp.width = mainCanvas.width;
+  tmp.height = mainCanvas.height;
+  const tc = tmp.getContext('2d');
+  tc.fillStyle = '#0a0614';
+  tc.fillRect(0, 0, tmp.width, tmp.height);
+  tc.drawImage(mainCanvas, 0, 0);
+
+  const a = document.createElement('a');
+  a.download = 'mandala.png';
+  a.href = tmp.toDataURL('image/png');
+  a.click();
+});
+
+// Fullscreen
+document.getElementById('fs-btn').addEventListener('click', () => {
+  if (!document.fullscreenElement) {
+    document.documentElement.requestFullscreen();
+  } else {
+    document.exitFullscreen();
+  }
+});
+
+// Keyboard shortcuts
+document.addEventListener('keydown', e => {
+  if (e.ctrlKey && e.key === 'z') {
+    document.getElementById('btn-undo').click();
+  }
+  if (e.key === 'e') {
+    document.getElementById('mode-erase').click();
+  }
+  if (e.key === 'd') {
+    document.getElementById('mode-draw').click();
+  }
+});
+
+// Init
+window.addEventListener('resize', resize);
+resize();
+</script>
+</body>
+</html>
